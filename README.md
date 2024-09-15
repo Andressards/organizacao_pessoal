@@ -1,0 +1,1 @@
+Este é um projeto de treino para criar uma lista de tarefas com as seguintes funções: incluir tarefas, marcar como concluidas e apagar.

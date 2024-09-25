@@ -1,53 +1,72 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <title>To Do List</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dízimo Digital</title>
+
+    <!-- Fonte do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">
+
+    <!-- CSS Boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- CSS da aplicação -->
+    <link rel="stylesheet" href="/css/app.css">
+
+    <!-- Script do Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
-    <div id="to_do">
-        <h1>Coisas a Fazer</h1>
 
-        <form action="" class="to-do-form">
-            <input type="text" name="description" placeholder="Escreva sua tarefa aqui" required>
-            <button type="submit" class="form-button">
-                <i class="fa-solid fa-plus"></i>
-            </button>
-        </form>
-
-        <div id="tasks">
-            <div class="task">
-                <input type="checkbox" name="progress" class="progress">
-                
-                <p class="task-description">
-                    Tema de casa
-                </p>
-
-                <div class="task-actions">
-                    <a class="action-button edit-button">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-
-                    <a href="" class="action-button delete-button">
-                        <i class="fa-regular fa-trash-can"></i>
-                    </a>
-                </div>
-
-                <form action="" class="to-do-form edit-task hidden">
-                    <input type="text" name="description" placeholder="Edite a sua tarefa aqui">
-                    <button type="submit" class="form-button confirm-button">
-                        <i class="fa-solid fa-check"></i>
-                    </button>
-                </form>
-
-            </div>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="collapse navbar-collapse" id="navbar">
+            <a href="/" class="navbar-brand">
+                <img src="/img/Sara-nossa-terra-logo.png" alt="Dízimo Digital">
+            </a>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="/cadastroTarefas" class="nav-link">To-do-list</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/consultas/grid_cadastro_membro" class="nav-link">Quando PPC</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/register" class="nav-link">Novo Usuário</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/login" class="nav-link">Login</a>
+                </li>
+                <li class="nav-item">
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <a href="/logout" class="nav-link"
+                           onclick="event.preventDefault();
+                           this.closest('form').submit();">Sair</a>
+                    </form>
+                </li>
+            </ul>
+            <navbar-brand></navbar-brand>
+        </div>
+    </nav>
+</header>
+<main class="d-flex flex-column">
+    <div class="container-fluid flex-grow-1">
+        <div class="row">
+            @if(session('msg'))
+                <p class="msg">{{ session('msg') }}</p>
+            @endif
+            @yield('content')
         </div>
     </div>
+</main>
 
-    <script src="{{ asset('js/app.js') }}"></script>
+<footer class="mt-auto">
+    <p>Sunny Next/p>
+</footer>
+
 </body>
 </html>

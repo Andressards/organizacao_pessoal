@@ -10,4 +10,10 @@ class Tarefas extends Model
     use HasFactory;
 
     protected $table = 'tarefas';
+
+    // Adicione os campos que podem ser mass assignable
+    protected $fillable = [
+        'tarefa',
+        'status',
+    ];
 }

@@ -5,52 +5,52 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tarefas;
 
-class welcome extends Controller
+class TarefasController extends Controller
 {
+
     public function index() {
-        return view('welcome');
+        $tarefas = Tarefas::all();
+        return view('cadastroTarefas', ['tarefas' => $tarefas]); // 'todo' é o nome da sua view
     }
 
-    public function createTipoEntrada() {
-        return view('cadastros.cadastro_tipo_entrada');
-    }
-
-    public function consultaTipoEntrada() {
-        $tipos_entrada = Tarefas::orderBy('id')->get();
-    
-        return view('consultas.grid_cadastro_tipo_entrada', ['tipos_entrada' => $tipos_entrada]);
-    }
-    
-
-    public function showTipoEntrada($id){
-        $tipoEntrada = Tarefas::findOrFail($id);
-    
-        return view('edicao.cadastro_tipo_entrada', compact('tipoEntrada'));
-    }
 
     public function store(Request $request) {
-        $entrada_tipo = new Tarefas;
-
-        $entrada_tipo->tipo_entrada = $request->tipo_entrada;
-        $entrada_tipo->status = $request->status_tipo_entrada;
-
-        $entrada_tipo->save();
-
-        return redirect('/consultas/grid_cadastro_tipo_entrada')->with('msg', 'Cadastro criado com sucesso!');
-    }
-
-    public function destroyTipoEntrada($id) {
-        Tarefas::findOrFail($id)->delete();
-        return redirect('/consultas/grid_cadastro_tipo_entrada')->with('msg', 'Registro excluido com sucesso!');
-    }
-
-    public function updateTipoEntrada(Request $request, $id) {
-        $tipoEntrada = Tarefas::findOrFail($id);
-        $tipoEntrada->tipo_entrada = $request->tipo_entrada;
-        $tipoEntrada->status = $request->status_tipo_entrada;
-        $tipoEntrada->save();
+        $request->validate([
+            'tarefa' => 'required|string|max:255',
+        ]);
     
-        return redirect('/consultas/grid_cadastro_tipo_entrada')->with('msg', 'Cadastro atualizado com sucesso!');
+        Tarefas::create([
+            'tarefa' => $request->tarefa,
+            'status' => false, // Definir como false (não concluído) por padrão
+        ]);
+    
+        return redirect()->back();
+    }
+    
+
+    public function update(Request $request, Tarefas $tarefa) {
+        // Valida a entrada do formulário
+        $request->validate([
+            'tarefa' => 'required|string|max:255', // Certifique-se de que 'tarefa' está sendo enviado
+        ]);
+    
+        // Atualiza a tarefa com o novo valor
+        $tarefa->tarefa = $request->input('tarefa');
+        
+        // Verifica se o checkbox foi marcado
+        $tarefa->status = $request->has('completed');
+        
+        // Salva as mudanças
+        $tarefa->save();
+    
+        return redirect()->back();
+    }
+    
+    
+    public function destroy(Tarefas $tarefa) {
+        $tarefa->delete();
+    
+        return redirect()->back();
     }
     
 }

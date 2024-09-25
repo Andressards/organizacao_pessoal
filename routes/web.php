@@ -1,18 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TarefasController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+// Remova ou comente a rota duplicada abaixo
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Defina as rotas utilizando o TarefasController
+Route::get('/', [TarefasController::class, 'index']);
+Route::post('/cadastroTarefas', [TarefasController::class, 'store']);
+Route::patch('/cadastroTarefas/{tarefa}', [TarefasController::class, 'update']);
+Route::delete('/cadastroTarefas/{tarefa}', [TarefasController::class, 'destroy']);
